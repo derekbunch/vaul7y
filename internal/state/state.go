@@ -9,7 +9,7 @@ import (
 )
 
 type State struct {
-	mu sync.RWMutex
+	mu           sync.RWMutex
 	VaultAddress string
 	VaultVersion string
 	Mounts       map[string]*models.MountOutput
@@ -23,6 +23,7 @@ type State struct {
 	SelectedNamespace  string
 	SelectedMount      string
 	SelectedPath       string
+	DefaultPath        string
 	SelectedObject     string
 	SelectedPolicyName string
 	SelectedSecret     *api.Secret

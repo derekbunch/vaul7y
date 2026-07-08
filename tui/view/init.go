@@ -224,7 +224,71 @@ func (v *View) Init(version string) {
 		v.Layout.Container.QueueUpdateDraw(v.UpdateVaultInfo)
 	}()
 
-	v.Mounts()
+	if !v.openDefaultPath() {
+		v.Mounts()
+	}
+}
+
+func (v *View) openDefaultPath() bool {
+	defaultPath := strings.Trim(strings.TrimSpace(v.state.DefaultPath), "/")
+	if defaultPath == "" {
+		return false
+	}
+
+	v.Watcher.UpdateMounts()
+
+	v.state.RLock()
+	mounts := v.state.Mounts
+	v.state.RUnlock()
+
+	mount, path, ok := resolveDefaultPath(defaultPath, mounts)
+	if !ok {
+		v.logger.Warn().Msgf("default path %q does not match any mounted secret engine", defaultPath)
+		return false
+	}
+
+	v.state.Lock()
+	v.state.SelectedMount = mount
+	v.state.SelectedPath = path
+	v.state.SelectedObject = ""
+	v.state.Unlock()
+
+	v.Secrets(path, "false")
+	return true
+}
+
+func resolveDefaultPath(defaultPath string, mounts map[string]*models.MountOutput) (string, string, bool) {
+	defaultPath = strings.Trim(strings.TrimSpace(defaultPath), "/")
+	if defaultPath == "" {
+		return "", "", false
+	}
+
+	var selectedMount string
+	var selectedPrefix string
+	for mount := range mounts {
+		prefix := strings.Trim(strings.TrimSpace(mount), "/")
+		if prefix == "" {
+			continue
+		}
+		prefix = fmt.Sprintf("%s/", prefix)
+		if defaultPath == strings.TrimSuffix(prefix, "/") || strings.HasPrefix(defaultPath, prefix) {
+			if len(prefix) > len(selectedPrefix) {
+				selectedMount = mount
+				selectedPrefix = prefix
+			}
+		}
+	}
+
+	if selectedMount == "" {
+		return "", "", false
+	}
+
+	path := strings.TrimPrefix(defaultPath, selectedPrefix)
+	if defaultPath == strings.TrimSuffix(selectedPrefix, "/") {
+		path = ""
+	}
+
+	return selectedMount, path, true
 }
 
 func (v *View) UpdateVaultInfo() {

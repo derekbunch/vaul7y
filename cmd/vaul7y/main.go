@@ -61,7 +61,7 @@ func main() {
 	}
 
 	refreshIntervalDefault := time.Duration(cfg.VaultyRefreshRate) * time.Second
-	state := initializeState(vaultClient, cfg.VaultNamespace)
+	state := initializeState(vaultClient, cfg.VaultNamespace, cfg.VaultyDefaultPath)
 	toggles := component.NewTogglesInfo()
 	selections := component.NewSelections(state)
 	namespaces := component.NewNamespaceTable()
@@ -112,7 +112,7 @@ func main() {
 
 }
 
-func initializeState(client *vault.Vault, rootNs string) *state.State {
+func initializeState(client *vault.Vault, rootNs string, defaultPath string) *state.State {
 	state := state.New()
 	addr := client.Address()
 	version := client.Version
@@ -120,6 +120,7 @@ func initializeState(client *vault.Vault, rootNs string) *state.State {
 	state.VaultVersion = version
 	state.DefaultNamespace = "-"
 	state.RootNamespace = "-"
+	state.DefaultPath = defaultPath
 
 	if rootNs != "" {
 		state.Enterprise = true
