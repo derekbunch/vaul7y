@@ -6,7 +6,7 @@ import (
 
 	"github.com/dkyanakiev/vaul7y/tui/component"
 	"github.com/dkyanakiev/vaul7y/tui/component/componentfakes"
-	"github.com/gdamore/tcell/v2"
+	"github.com/dkyanakiev/vaul7y/tui/styles"
 	"github.com/hashicorp/vault/api"
 	"github.com/rivo/tview"
 	"github.com/stretchr/testify/require"
@@ -68,8 +68,8 @@ func TestSecretObjTable_Pass(t *testing.T) {
 		r.Equal(expectedRow2, row2)
 		r.Equal(index1, 1)
 		r.Equal(index2, 2)
-		r.Equal(c1, tcell.ColorYellow)
-		r.Equal(c2, tcell.ColorYellow)
+		r.Equal(c1, styles.RowColor())
+		r.Equal(c2, styles.RowColor())
 
 	})
 

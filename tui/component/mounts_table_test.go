@@ -7,7 +7,6 @@ import (
 	"github.com/dkyanakiev/vaul7y/tui/component"
 	"github.com/dkyanakiev/vaul7y/tui/component/componentfakes"
 	"github.com/dkyanakiev/vaul7y/tui/styles"
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 	"github.com/stretchr/testify/require"
 )
@@ -54,7 +53,7 @@ func TestMountsTable_Pass(t *testing.T) {
 
 		r.Equal(expectedRow1, row1)
 		r.Equal(index1, 1)
-		r.Equal(c1, tcell.ColorGreenYellow)
+		r.Equal(c1, styles.MountKVColor())
 
 	})
 
