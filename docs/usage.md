@@ -61,8 +61,8 @@ Required:
 
 For the full list see the [official docs](https://developer.hashicorp.com/vault/docs/commands#environment-variables)
 
-Another option is to store your configs in yaml file named `.vaul7y.yaml` stored in your home directory.  
-Example: [`~/myuser/.vaul7y.yaml`](./examples/vaul7y.yaml)
+Another option is to store your configs in `~/.config/vaul7y/config.yaml` or `~/.config/vaul7y/config.yml`.  
+Example: [`~/.config/vaul7y/config.yaml`](./examples/vaul7y.yaml)
 
 Or alternatively pass a config file as an argument using `-c <path/file.yaml>`  
 Example: `vaul7y -c ./new-env.yml`

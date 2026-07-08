@@ -81,6 +81,57 @@ vault_token: yaml-token
 	})
 }
 
+func TestLoadConfig_DefaultConfigFiles(t *testing.T) {
+	t.Run("loads config.yaml from xdg config directory", func(t *testing.T) {
+		home := t.TempDir()
+		configDir := filepath.Join(home, ".config", "vaul7y")
+		require.NoError(t, os.MkdirAll(configDir, 0700))
+		require.NoError(t, os.WriteFile(filepath.Join(configDir, "config.yaml"), []byte(`
+vault_addr: https://xdg-yaml.vault.example.com
+vault_token: yaml-token
+`), 0600))
+		t.Setenv("HOME", home)
+		t.Setenv("VAULT_ADDR", "")
+		t.Setenv("VAULT_TOKEN", "env-token")
+
+		cfg := config.LoadConfig("")
+
+		assert.Equal(t, "https://xdg-yaml.vault.example.com", cfg.VaultAddr)
+	})
+
+	t.Run("loads config.yml from xdg config directory", func(t *testing.T) {
+		home := t.TempDir()
+		configDir := filepath.Join(home, ".config", "vaul7y")
+		require.NoError(t, os.MkdirAll(configDir, 0700))
+		require.NoError(t, os.WriteFile(filepath.Join(configDir, "config.yml"), []byte(`
+vault_addr: https://xdg-yml.vault.example.com
+vault_token: yml-token
+`), 0600))
+		t.Setenv("HOME", home)
+		t.Setenv("VAULT_ADDR", "")
+		t.Setenv("VAULT_TOKEN", "env-token")
+
+		cfg := config.LoadConfig("")
+
+		assert.Equal(t, "https://xdg-yml.vault.example.com", cfg.VaultAddr)
+	})
+
+	t.Run("falls back to legacy home config", func(t *testing.T) {
+		home := t.TempDir()
+		require.NoError(t, os.WriteFile(filepath.Join(home, ".vaul7y.yaml"), []byte(`
+vault_addr: https://legacy.vault.example.com
+vault_token: legacy-token
+`), 0600))
+		t.Setenv("HOME", home)
+		t.Setenv("VAULT_ADDR", "")
+		t.Setenv("VAULT_TOKEN", "env-token")
+
+		cfg := config.LoadConfig("")
+
+		assert.Equal(t, "https://legacy.vault.example.com", cfg.VaultAddr)
+	})
+}
+
 func TestLoadConfig_EnvVars(t *testing.T) {
 	base := writeConfig(t, baseYAML)
 

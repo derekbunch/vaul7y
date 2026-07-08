@@ -49,11 +49,13 @@ func LoadConfig(cfgFile string) Config {
 
 	var data []byte
 	if cfgFile == "" {
-		yamlFilePath := filepath.Join(home, ".vaul7y.yaml")
-		if _, err := os.Stat(yamlFilePath); !os.IsNotExist(err) {
-			data, err = os.ReadFile(yamlFilePath)
-			if err != nil {
-				fmt.Fprintf(os.Stderr, "Error reading YAML file: %v\n", err)
+		for _, yamlFilePath := range defaultConfigPaths(home) {
+			if _, err := os.Stat(yamlFilePath); !os.IsNotExist(err) {
+				data, err = os.ReadFile(yamlFilePath)
+				if err != nil {
+					fmt.Fprintf(os.Stderr, "Error reading YAML file: %v\n", err)
+				}
+				break
 			}
 		}
 	} else {
@@ -173,4 +175,12 @@ func LoadConfig(cfgFile string) Config {
 	}
 
 	return config
+}
+
+func defaultConfigPaths(home string) []string {
+	return []string{
+		filepath.Join(home, ".config", "vaul7y", "config.yaml"),
+		filepath.Join(home, ".config", "vaul7y", "config.yml"),
+		filepath.Join(home, ".vaul7y.yaml"),
+	}
 }
