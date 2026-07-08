@@ -11,9 +11,9 @@ import (
 	"github.com/rs/zerolog"
 )
 
-
 const (
-	historySize = 15
+	historySize       = 15
+	footerInputHeight = 3
 )
 
 type Client interface {
@@ -175,7 +175,7 @@ func (v *View) cancelRecursiveSearch() {
 
 func (v *View) Search() {
 	search := v.components.Search
-	v.Layout.MainPage.ResizeItem(v.Layout.Footer, 0, 1)
+	v.Layout.MainPage.ResizeItem(v.Layout.Footer, footerInputHeight, 0)
 	search.Render()
 	v.Layout.Container.SetFocus(search.InputField.Primitive())
 }
@@ -191,7 +191,7 @@ func (v *View) resetSearch() {
 
 func (v *View) TextInput() {
 	textIn := v.components.TextInfoInput
-	v.Layout.MainPage.ResizeItem(v.Layout.Footer, 0, 1)
+	v.Layout.MainPage.ResizeItem(v.Layout.Footer, footerInputHeight, 0)
 	textIn.Render()
 	v.Layout.Container.SetFocus(textIn.InputField.Primitive())
 }
