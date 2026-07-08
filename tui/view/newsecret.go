@@ -84,7 +84,7 @@ func (v *View) openNewSecretJSONEditor(mount, path string) {
 			v.state.SelectedPath = path
 			v.state.Unlock()
 			v.SecretObject(mount, path)
-			v.components.Commands.Update(component.SecretsObjectPatchCommands)
+			v.components.Commands.Update(component.SecretsObjectPatchCommands())
 			v.components.SecretObjTable.SetEditable(true)
 			v.components.TogglesInfo.Props.Editable = true
 			v.components.SecretObjTable.Props.Update = "UPDATE"

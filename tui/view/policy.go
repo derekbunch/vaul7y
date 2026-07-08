@@ -15,7 +15,7 @@ func (v *View) VPolicy() {
 	v.Layout.Body.SetTitle("Vault Policies")
 	v.Layout.Container.SetFocus(v.components.PolicyTable.Table.Primitive())
 	v.Layout.Container.SetInputCapture(v.InputVaultPolicy)
-	v.components.Commands.Update(component.PolicyCommands)
+	v.components.Commands.Update(component.PolicyCommands())
 	search := v.components.Search
 	//table := v.components.in
 

@@ -22,7 +22,7 @@ func (v *View) SecretObject(mount, path string) {
 	v.Layout.Body.SetTitle("Secret object")
 	v.Layout.Container.SetInputCapture(v.InputSecret)
 	v.Layout.Container.SetFocus(v.components.SecretObjTable.Table.Primitive())
-	v.components.Commands.Update(component.SecretObjectCommands)
+	v.components.Commands.Update(component.SecretObjectCommands())
 
 	v.logger.Debug().Msgf("Selected mount is: %v", mount)
 	v.logger.Debug().Msgf("Selected path is: %v", path)
@@ -320,7 +320,7 @@ func (v *View) editSecretMetadata() {
 	}
 	jsonBytes, _ := json.MarshalIndent(initial, "", "  ")
 
-	v.components.Commands.Update(component.SecretsObjectPatchCommands)
+	v.components.Commands.Update(component.SecretsObjectPatchCommands())
 	v.components.SecretObjTable.SetEditable(true)
 	v.components.TogglesInfo.Props.Editable = true
 	v.components.SecretObjTable.Props.Update = "METADATA"
@@ -380,7 +380,7 @@ func (v *View) promptUpdateFormat(mode string) {
 	patch := mode == "PATCH"
 
 	openJSONEditor := func() {
-		v.components.Commands.Update(component.SecretsObjectPatchCommands)
+		v.components.Commands.Update(component.SecretsObjectPatchCommands())
 		v.components.SecretObjTable.SetEditable(true)
 		v.components.TogglesInfo.Props.Editable = true
 		v.components.SecretObjTable.Props.Update = mode

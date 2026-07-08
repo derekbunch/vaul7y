@@ -16,7 +16,7 @@ func (v *View) Namespaces() {
 
 	v.state.Elements.TableMain = v.components.NamespaceTable.Table.Primitive().(*tview.Table)
 	v.components.NamespaceTable.Logger = v.logger
-	v.components.Commands.Update(component.NamespaceObjectCommands)
+	v.components.Commands.Update(component.NamespaceObjectCommands())
 	v.Layout.Container.SetInputCapture(v.InputNamespaces)
 
 	update := func() {

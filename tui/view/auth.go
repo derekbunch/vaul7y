@@ -12,7 +12,7 @@ func (v *View) AuthMethods() {
 	v.Layout.Body.SetTitle("Auth Methods")
 	v.Layout.Container.SetFocus(v.components.AuthTable.Table.Primitive())
 	v.Layout.Container.SetInputCapture(v.InputAuthMethods)
-	v.components.Commands.Update(component.AuthCommands)
+	v.components.Commands.Update(component.AuthCommands())
 
 	update := func() {
 		v.state.RLock()

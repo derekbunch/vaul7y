@@ -99,7 +99,7 @@ func (v *View) SearchResults() {
 	v.Layout.Body.SetTitle("Search Results")
 	v.Layout.Container.SetFocus(v.components.SearchResultsTable.Table.Primitive())
 	v.Layout.Container.SetInputCapture(v.InputSearchResults)
-	v.components.Commands.Update(component.SearchResultsCommands)
+	v.components.Commands.Update(component.SearchResultsCommands())
 
 	v.renderSearchResults()
 

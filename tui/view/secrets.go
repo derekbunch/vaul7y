@@ -23,7 +23,7 @@ func (v *View) Secrets(path string, secretBool string) {
 	v.Layout.Body.SetTitle(fmt.Sprintf("Secrets: %s", path))
 	v.Layout.Container.SetFocus(v.components.SecretsTable.Table.Primitive())
 	v.Layout.Container.SetInputCapture(v.InputSecrets)
-	v.components.Commands.Update(component.SecretsCommands)
+	v.components.Commands.Update(component.SecretsCommands())
 	v.logger.Debug().Msgf("Selected path for secret is: %v", path)
 
 	search := v.components.Search

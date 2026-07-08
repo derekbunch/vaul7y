@@ -43,3 +43,9 @@ func TestResolveDefaultPath(t *testing.T) {
 		require.False(t, ok)
 	})
 }
+
+func TestEnsurePathSuffix(t *testing.T) {
+	require.Equal(t, "team/data-engineering/", ensurePathSuffix("team/data-engineering"))
+	require.Equal(t, "team/data-engineering/", ensurePathSuffix("/team/data-engineering/"))
+	require.Equal(t, "", ensurePathSuffix(""))
+}

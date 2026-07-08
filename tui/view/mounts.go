@@ -13,7 +13,7 @@ func (v *View) Mounts() {
 	v.Layout.Body.SetTitle("Secret Mounts")
 	v.Layout.Container.SetFocus(v.components.MountsTable.Table.Primitive())
 	v.Layout.Container.SetInputCapture(v.InputMounts)
-	v.components.Commands.Update(component.MountsCommands)
+	v.components.Commands.Update(component.MountsCommands())
 	v.state.Elements.TableMain = v.components.MountsTable.Table.Primitive().(*tview.Table)
 	v.components.MountsTable.Logger = v.logger
 	v.components.SecretsTable.Props.SelectedPath = ""

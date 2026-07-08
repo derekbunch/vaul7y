@@ -146,7 +146,7 @@ func (v *View) Init(version string) {
 			}
 		} else if jumpToPath {
 			v.state.Lock()
-			v.state.SelectedPath = inputText
+			v.state.SelectedPath = ensurePathSuffix(inputText)
 			v.state.Unlock()
 			v.Secrets(inputText, "false")
 		} else {
@@ -249,7 +249,7 @@ func (v *View) openDefaultPath() bool {
 
 	v.state.Lock()
 	v.state.SelectedMount = mount
-	v.state.SelectedPath = path
+	v.state.SelectedPath = ensurePathSuffix(path)
 	v.state.SelectedObject = ""
 	v.state.Unlock()
 
@@ -289,6 +289,14 @@ func resolveDefaultPath(defaultPath string, mounts map[string]*models.MountOutpu
 	}
 
 	return selectedMount, path, true
+}
+
+func ensurePathSuffix(path string) string {
+	path = strings.Trim(path, "/")
+	if path == "" {
+		return ""
+	}
+	return fmt.Sprintf("%s/", path)
 }
 
 func (v *View) UpdateVaultInfo() {

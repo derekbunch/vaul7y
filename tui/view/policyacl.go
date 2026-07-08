@@ -13,7 +13,7 @@ func (v *View) PolicyACL(policyName string) {
 	v.Layout.Body.SetTitle(policyName)
 	v.Layout.Container.SetFocus(v.components.PolicyAclTable.TextView.Primitive())
 	v.components.PolicyAclTable.TextView.Clear().ScrollToBeginning()
-	v.components.Commands.Update(component.PolicyACLCommands)
+	v.components.Commands.Update(component.PolicyACLCommands())
 	v.Layout.Container.SetInputCapture(v.InputPolicyACL)
 
 	v.state.SelectedPolicyName = policyName
@@ -57,7 +57,7 @@ func (v *View) inputPolicyACL(event *tcell.EventKey) *tcell.EventKey {
 		if editing {
 			v.components.PolicyAclTable.SetEditable(false)
 			v.components.PolicyAclTable.Render()
-			v.components.Commands.Update(component.PolicyACLCommands)
+			v.components.Commands.Update(component.PolicyACLCommands())
 			v.Layout.Container.SetFocus(v.components.PolicyAclTable.TextView.Primitive())
 			return nil
 		}
@@ -68,7 +68,7 @@ func (v *View) inputPolicyACL(event *tcell.EventKey) *tcell.EventKey {
 			case 'E', 'e':
 				v.components.PolicyAclTable.SetEditable(true)
 				v.components.PolicyAclTable.RenderEditArea()
-				v.components.Commands.Update(component.PolicyACLEditCommands)
+				v.components.Commands.Update(component.PolicyACLEditCommands())
 				v.Layout.Container.SetFocus(v.components.PolicyAclTable.TextArea.Primitive())
 				return nil
 			case 'c':
@@ -120,7 +120,7 @@ func (v *View) savePolicyEdit() {
 
 	v.components.PolicyAclTable.SetEditable(false)
 	v.components.PolicyAclTable.Render()
-	v.components.Commands.Update(component.PolicyACLCommands)
+	v.components.Commands.Update(component.PolicyACLCommands())
 	v.Layout.Container.SetFocus(v.components.PolicyAclTable.TextView.Primitive())
 	v.handleInfo("Policy updated successfully")
 }

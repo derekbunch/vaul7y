@@ -74,21 +74,21 @@ type Components struct {
 	SecretsTable       *component.SecretsTable
 	SearchResultsTable *component.SearchResultsTable
 	SecretObjTable     *component.SecretObjTable
-	NamespaceTable *component.NamespaceTable
-	AuthTable      *component.AuthTable
-	Commands       *component.Commands
-	VaultInfo      *component.VaultInfo
-	Search         *component.SearchField
-	Error          *component.Error
-	Info           *component.Info
-	Failure        *component.Info
-	Confirm        *component.Confirm
-	TogglesInfo    *component.TogglesInfo
-	Selections     *component.Selections
-	JumpToPolicy   *component.JumpToPolicy
-	TextInfoInput  *component.TextInfoInput
-	Logo           *component.Logo
-	Logger         *zerolog.Logger
+	NamespaceTable     *component.NamespaceTable
+	AuthTable          *component.AuthTable
+	Commands           *component.Commands
+	VaultInfo          *component.VaultInfo
+	Search             *component.SearchField
+	Error              *component.Error
+	Info               *component.Info
+	Failure            *component.Info
+	Confirm            *component.Confirm
+	TogglesInfo        *component.TogglesInfo
+	Selections         *component.Selections
+	JumpToPolicy       *component.JumpToPolicy
+	TextInfoInput      *component.TextInfoInput
+	Logo               *component.Logo
+	Logger             *zerolog.Logger
 }
 
 func New(components *Components, watcher Watcher, client Client, state *state.State, logger *zerolog.Logger) *View {

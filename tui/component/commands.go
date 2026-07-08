@@ -11,7 +11,11 @@ import (
 )
 
 var (
-	MainCommands = []string{
+	NoViewCommands = []string{}
+)
+
+func MainCommands() []string {
+	return []string{
 		fmt.Sprintf("%sMain Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%sctrl-b%s to display Secret Engines", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sctrl-p%s to display ACL Policies", styles.HighlightPrimaryTag, styles.StandardColorTag),
@@ -19,17 +23,25 @@ var (
 		fmt.Sprintf("%sctrl-a%s to display Auth Methods", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sctrl-c%s to Quit", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	MountsCommands = []string{
+}
+
+func MountsCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s Secret Engines Command List:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%se or Enter%s to explore mount", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	NoViewCommands = []string{}
-	PolicyCommands = []string{
+}
+
+func PolicyCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s ACL Policy Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%si or <Enter> %s to inspect policy", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%s/%s Filter policies ", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	PolicyACLCommands = []string{
+}
+
+func PolicyACLCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s ACL Policy Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%sj/k%s scroll line down/up", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sd/u%s scroll half-page down/up", styles.HighlightPrimaryTag, styles.StandardColorTag),
@@ -39,12 +51,18 @@ var (
 		fmt.Sprintf("%sw%s toggle word wrap", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sesc%s to go back", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	PolicyACLEditCommands = []string{
+}
+
+func PolicyACLEditCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s ACL Policy Edit:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%sctrl-w%s to save policy", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sesc%s to cancel edit", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	SecretsCommands = []string{
+}
+
+func SecretsCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s Secrets Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%se or enter%s to navigate to selected the path", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sb or esc%s to go back to the previous path", styles.HighlightPrimaryTag, styles.StandardColorTag),
@@ -53,13 +71,19 @@ var (
 		fmt.Sprintf("%s/%s Filter objects ", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sctrl-f%s recursive search from current path", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	SearchResultsCommands = []string{
+}
+
+func SearchResultsCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s Search Results Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%se or enter%s to open the selected secret", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sv%s toggle matching secret values (re-runs search)", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sb or esc%s to go back to the secrets browser", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	SecretObjectCommands = []string{
+}
+
+func SecretObjectCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s Secret Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%sh%s toggle display for secrets", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%st%s toggle metadata panel (v2 only)", styles.HighlightPrimaryTag, styles.StandardColorTag),
@@ -73,22 +97,31 @@ var (
 		fmt.Sprintf("%sM%s edit secret metadata (v2 only)", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sb or esc%s to go back to the previous path", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	SecretsObjectPatchCommands = []string{
+}
+
+func SecretsObjectPatchCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s Secret Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%sctrl-v%s to paste from clipboard", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sctrl-w%s to submit your PATCH/UPDATE request", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sesc%s to go back to the previous path", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	NamespaceObjectCommands = []string{
+}
+
+func NamespaceObjectCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s Namespace Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%sctrl-d%s to back to default namespace", styles.HighlightPrimaryTag, styles.StandardColorTag),
 		fmt.Sprintf("%sctrl-w%s to back to root namespace", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-	AuthCommands = []string{
+}
+
+func AuthCommands() []string {
+	return []string{
 		fmt.Sprintf("\n%s Auth Method Commands:", styles.HighlightSecondaryTag),
 		fmt.Sprintf("%sesc%s to go back", styles.HighlightPrimaryTag, styles.StandardColorTag),
 	}
-)
+}
 
 type Commands struct {
 	TextView TextView
@@ -105,7 +138,7 @@ func NewCommands() *Commands {
 	return &Commands{
 		TextView: primitive.NewTextView(tview.AlignLeft),
 		Props: &CommandsProps{
-			MainCommands: MainCommands,
+			MainCommands: MainCommands(),
 			// ViewCommands: MainCommands,
 		},
 	}
