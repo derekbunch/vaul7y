@@ -37,6 +37,7 @@ func TestLoadConfig_YAML(t *testing.T) {
 vault_addr: https://yaml.vault.example.com
 vault_token: yaml-token
 vault_namespace: yaml-ns
+vaulty_default_path: secrets/team/data-engineering
 vaulty_log_file: /tmp/vaul7y.log
 vaulty_log_level: info
 vaulty_refresh_rate: 45
@@ -53,6 +54,7 @@ theme:
 `))
 		assert.Equal(t, "https://yaml.vault.example.com", cfg.VaultAddr)
 		assert.Equal(t, "yaml-ns", cfg.VaultNamespace)
+		assert.Equal(t, "secrets/team/data-engineering", cfg.VaultyDefaultPath)
 		assert.Equal(t, "/tmp/vaul7y.log", cfg.VaultyLogFile)
 		assert.Equal(t, "info", cfg.VaultyLogLevel)
 		assert.Equal(t, 45, cfg.VaultyRefreshRate)
@@ -107,6 +109,15 @@ func TestLoadConfig_EnvVars(t *testing.T) {
 		cfg := config.LoadConfig(base)
 
 		assert.Equal(t, 60, cfg.VaultyRefreshRate)
+	})
+
+	t.Run("VAULTY_DEFAULT_PATH from env", func(t *testing.T) {
+		t.Setenv("VAULT_TOKEN", "env-token")
+		t.Setenv("VAULTY_DEFAULT_PATH", "secrets/team/data-engineering")
+
+		cfg := config.LoadConfig(base)
+
+		assert.Equal(t, "secrets/team/data-engineering", cfg.VaultyDefaultPath)
 	})
 
 	t.Run("invalid VAULTY_REFRESH_RATE falls back to default 30", func(t *testing.T) {

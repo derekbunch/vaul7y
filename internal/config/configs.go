@@ -23,6 +23,7 @@ type Config struct {
 	VaultyLogFile     string      `yaml:"vaulty_log_file"`
 	VaultyLogLevel    string      `yaml:"vaulty_log_level"`
 	VaultyRefreshRate int         `yaml:"vaulty_refresh_rate"`
+	VaultyDefaultPath string      `yaml:"vaulty_default_path"`
 	Theme             ThemeConfig `yaml:"theme"`
 }
 
@@ -117,6 +118,9 @@ func LoadConfig(cfgFile string) Config {
 		} else {
 			config.VaultyRefreshRate = vaultyRefreshRateInt
 		}
+	}
+	if vaultyDefaultPath := os.Getenv("VAULTY_DEFAULT_PATH"); vaultyDefaultPath != "" {
+		config.VaultyDefaultPath = vaultyDefaultPath
 	}
 
 	if config.VaultToken == "" {
