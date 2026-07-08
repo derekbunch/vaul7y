@@ -2,14 +2,18 @@ package vault
 
 import (
 	"context"
+	"net/http"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/dkyanakiev/vaul7y/internal/config"
 	"github.com/dkyanakiev/vaul7y/internal/models"
 	"github.com/hashicorp/vault/api"
 	"github.com/rs/zerolog"
 )
+
+const defaultVaultHTTPTimeout = 10 * time.Second
 
 //go:generate counterfeiter . Client
 type Client interface {
@@ -113,6 +117,10 @@ func New(opts ...func(*Vault) error) (*Vault, error) {
 func Default(v *Vault, log *zerolog.Logger, vaultyCfg config.Config) error {
 	cfg := api.DefaultConfig()
 	cfg.Address = vaultyCfg.VaultAddr
+	if cfg.HttpClient == nil {
+		cfg.HttpClient = http.DefaultClient
+	}
+	cfg.HttpClient.Timeout = defaultVaultHTTPTimeout
 
 	tlsCfg := &api.TLSConfig{}
 
