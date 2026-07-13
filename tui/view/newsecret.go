@@ -5,6 +5,7 @@ import (
 
 	"github.com/dkyanakiev/vaul7y/tui/component"
 	primitive "github.com/dkyanakiev/vaul7y/tui/primitives"
+	"github.com/dkyanakiev/vaul7y/tui/styles"
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
@@ -22,7 +23,7 @@ func (v *View) showFormatSelector(
 	jsonFn, kvFn func(),
 	restoreCapture func(*tcell.EventKey) *tcell.EventKey,
 ) {
-	modal := primitive.NewModal(title, []string{"JSON", "Key-Value", "Cancel"}, tcell.ColorDarkOliveGreen)
+	modal := primitive.NewModal(title, []string{"JSON", "Key-Value", "Cancel"}, styles.TcellColorModalInfo)
 	modal.SetText(msg)
 	modal.SetDoneFunc(func(_ int, label string) {
 		v.Layout.Pages.RemovePage(pageFormatSel)
@@ -124,10 +125,16 @@ func (v *View) showKVForm(
 		p := &kvPair{
 			key: tview.NewInputField().
 				SetLabel(fmt.Sprintf("Key %d:   ", idx)).
+				SetLabelColor(styles.TcellColorHighlighPrimary).
+				SetFieldTextColor(styles.TcellColorWhite).
+				SetFieldBackgroundColor(styles.TcellColorActive).
 				SetFieldWidth(28).
 				SetText(k),
 			value: tview.NewInputField().
 				SetLabel(fmt.Sprintf("Value %d: ", idx)).
+				SetLabelColor(styles.TcellColorHighlighPrimary).
+				SetFieldTextColor(styles.TcellColorWhite).
+				SetFieldBackgroundColor(styles.TcellColorActive).
 				SetFieldWidth(28).
 				SetText(val),
 		}
@@ -184,7 +191,16 @@ func (v *View) showKVForm(
 	form.AddButton("Cancel", dismiss)
 
 	form.SetTitle(" Key-Value Secret ").SetBorder(true)
-	form.SetBorderColor(tcell.ColorDarkOliveGreen)
+	form.SetBorderColor(styles.TcellColorStandard)
+	form.SetTitleColor(styles.TcellColorHighlighPrimary)
+	form.SetLabelColor(styles.TcellColorHighlighPrimary)
+	form.SetFieldTextColor(styles.TcellColorWhite)
+	form.SetFieldBackgroundColor(styles.TcellColorActive)
+	form.SetButtonTextColor(styles.TcellColorWhite)
+	form.SetButtonBackgroundColor(styles.TcellColorActive)
+	form.SetButtonActivatedStyle(tcell.StyleDefault.
+		Foreground(styles.TcellBackgroundColor).
+		Background(styles.TcellColorHighlighPrimary))
 	form.SetButtonsAlign(tview.AlignCenter)
 
 	centered := tview.NewFlex().
