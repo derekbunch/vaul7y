@@ -2,7 +2,9 @@ package vault
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"sync"
 	"time"
@@ -154,6 +156,7 @@ func Default(v *Vault, log *zerolog.Logger, vaultyCfg config.Config) error {
 	health, err := client.Sys().Health()
 	if err != nil {
 		log.Error().Err(err).Msg("Failed to connect to `v1/sys/health` ")
+		fmt.Fprintf(os.Stderr, "Failed to connect to Vault at %s: %v\n", cfg.Address, err)
 	} else {
 		version = health.Version
 	}
